@@ -1,6 +1,5 @@
 # no-burn-heart-skills
 
-将实际开发与排障经验整理成可复用的 Codex skills。
 
 ## Skills
 
@@ -31,12 +30,6 @@ https://github.com/dodatboii/no-burn-heart-skills/tree/main/skills/verl-ci-diagn
 安装后在下一轮对话中调用 `$verl-ci-diagnose`。如果没有被识别，可以重启 Codex 后重试。有关 skill 的发现与安装机制，参见 [OpenAI 官方说明](https://learn.chatgpt.com/docs/build-skills)。
 
 如果已安装同名 skill，更新时明确告诉 Codex“从该仓库更新已安装的 verl-ci-diagnose”，并说明是否需要保留本地改动。
-
-### 使用前提
-
-- Codex 能读取目标 GitHub Actions 的元数据、日志和相关仓库代码。优先使用 GitHub 连接器；能力不足时使用已认证的 `gh` 或 GitHub API。
-- 日志或 artifacts 已过期、访问受限时，可以提供已下载的日志和配置；报告会明确剩余证据缺口。
-- 分析和生成复现包不要求当前电脑有 NPU。执行完整 nightly 复现需要符合该 job 要求的 Ascend NPU 机器；具体型号、节点数、卡数、驱动、镜像和输入要求会写入当次生成的 README。
 
 ### 示例：PR CI 失败
 
@@ -72,19 +65,6 @@ $verl-ci-diagnose
 | PR CI | 完成上述报告后询问下一步；明确授权后再进行对应修复或提交工作。 |
 | Nightly CI | 上述报告，以及复现目录、压缩包、中文 README、环境与版本清单、预检、宿主/容器运行入口、环境采集及结果回传说明。 |
 
-Nightly 默认复现失败版本的完整流程，保留原始卡数、训练步数、batch、数据处理和 baseline 检查。候选修复或缩小规模的 smoke test 使用独立模式。
-
-**NPU 复现包默认使用 `quay.io/ascend/verl:<tag>` 作为 base 镜像**，因为 CI 中的镜像地址通常无法在工作环境直接拉取。具体 tag 根据目标 CI 的版本与软件栈核验，能够获取时固定 quay 镜像的 digest；报告会分别记录 CI 原镜像和复现镜像及其差异。不会静默改用 `latest` 或回退到 CI 镜像地址；用户明确指定其他镜像时按其要求处理。
-
-本仓库包含**工作流指令及复现包规范**；具体运行脚本、环境包和诊断报告在每次排查时依据对应 run 生成，不是一份适用于所有 CI 的固定 NPU 镜像或预制复现包。
-
-### 证据与验证原则
-
-- 使用日志中的实际 checkout 和最终配置，不把当前 main 或脚本默认值当成历史 run 的真实状态。
-- 不把时间上最近合入的 PR 直接认定为根因；明确反例、证据强度与待验证假设。
-- 相同镜像 tag、包版本或模型路径不代表内容完全一致；无法核验的历史环境信息会标明未知。
-- 没有实际运行 NPU 时，只报告已完成的静态/本地检查，不声称已复现故障或已验证修复。
-- 修复和提交仍遵循目标仓库贡献规范；skill 不代替人类审阅与测试。
 
 ## 目录结构
 
