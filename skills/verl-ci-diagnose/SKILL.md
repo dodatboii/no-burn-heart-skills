@@ -11,6 +11,7 @@ description: "排查 verl GitHub Actions 的 PR CI 与 nightly_ci 失败或精�
 
 - 输入通常为 GitHub Actions run/job URL；也接受 PR URL、成功 run URL 和已有复现日志。先识别仓库、run、attempt、job/matrix 和用户关注的问题。
 - **nightly CI**：完成分析报告和修改意见，并按 [NPU 复现包规范](references/nightly-npu-repro.md) 实际生成复现包与使用说明。不能只给零散命令或表示以后可以生成。
+- 准备 NPU 复现环境时，base 镜像默认使用 `quay.io/ascend/verl:<tag>`；CI 中的镜像地址通常无法在用户工作环境直接拉取，不作为默认拉取地址。tag 选择、digest 固定和环境差异记录见 [NPU 复现包规范](references/nightly-npu-repro.md)。用户明确指定其他镜像时遵从其要求。
 - **PR CI**：完成分析报告、具体修改建议和验证方案后，询问用户下一步，例如本地修改验证、准备 PR，或继续补证。默认在此处交接，不自行修复仓库、推送或提交 PR；如果用户本次或前文已明确授权相应动作，继续执行，不重复询问。
 - 按实际 workflow、job 和测试内容分类，不仅看触发事件：PR 事件也可能运行完整 nightly job。一个链接有多种任务时，分别说明范围；只交付与故障相关的 job，注明未覆盖的其他任务。
 - 开始前阅读适用的 AGENTS.md。诊断授权包括读取、下载证据、隔离的本地实验及生成报告/复现文件；不自动扩展为重跑远端 CI、改 workflow、发评论或发布 PR。尊重既有授权。
