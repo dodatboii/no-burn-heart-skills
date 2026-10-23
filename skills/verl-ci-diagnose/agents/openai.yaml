@@ -1,0 +1,4 @@
+interface:
+  display_name: "verl CI 排查"
+  short_description: "分析 verl CI 失败、对比成功运行并定位回归，交付 NPU 复现包"
+  default_prompt: "使用 $verl-ci-diagnose 分析这个 verl CI 失败链接，对比之前成功的运行，定位可疑 PR 并给出报告；nightly CI 交付完整 NPU 复现包，PR CI 给出建议后询问下一步。"
