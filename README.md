@@ -5,6 +5,7 @@
 
 | Skill | 用途 |
 | --- | --- |
+| [model-memory-estimation](skills/model-memory-estimation/SKILL.md) | 对 Dense、MoE 和混合注意力模型估算训练与推理显存，用小模型实测外推完整模型卡数和并行配置。 |
 | [verl-ci-diagnose](skills/verl-ci-diagnose/SKILL.md) | 排查 verl PR CI 和 nightly_ci 失败、精度回退，对比历史成功运行并定位可疑 PR；nightly 额外交付 Ascend NPU 复现环境包。 |
 
 ## verl-ci-diagnose
@@ -66,18 +67,65 @@ $verl-ci-diagnose
 | Nightly CI | 上述报告，以及复现目录、压缩包、中文 README、环境与版本清单、预检、宿主/容器运行入口、环境采集及结果回传说明。 |
 
 
+## model-memory-estimation
+
+从模型配置和实现建立显存账本，提供理论估算与“以小验大”两条路线；分别分析训练、推理及 RL 阶段，并检查并行配置、容量和部署约束。附 Kimi-K3 案例、可复算输入和纯 Python 计算工具。
+
+### 安装
+
+```text
+$skill-installer
+请安装这个 skill：
+https://github.com/dodatboii/no-burn-heart-skills/tree/main/skills/model-memory-estimation
+```
+
+### 使用示例
+
+```text
+$model-memory-estimation
+帮我分析这个新模型的训练与推理显存：<模型仓库或本地配置路径>
+硬件：每节点 16 个设备，每设备 64 GiB。
+训练：每卡 micro-batch 1，输入 1024、输出 512，BF16，Full Recompute。
+请先读取模型结构，给出理论预算和候选并行配置，缺少的关键值集中告诉我。
+```
+
+有小模型数据时，再提供裁剪后的层数、专家数/top-k、实际并行配置、各阶段峰值及其单位，按五步外推完整模型。没有实测时不虚构峰值；仅计算静态权重和缓存时，不将结果表述为已验证能跑通。
+
+### 计算工具
+
+在 skill 目录运行：
+
+```bash
+python3 scripts/estimate_memory.py references/kimi-k3-calculations.json
+python3 scripts/test_estimate_memory.py
+```
+
+输入格式见 [calculator.md](skills/model-memory-estimation/references/calculator.md)，理论公式见 [memory-models.md](skills/model-memory-estimation/references/memory-models.md)，外推流程见 [small-to-large.md](skills/model-memory-estimation/references/small-to-large.md)。
+
 ## 目录结构
 
 ```text
 .
 ├── README.md
 └── skills/
-    └── verl-ci-diagnose/
+    ├── verl-ci-diagnose/
+    │   ├── SKILL.md
+    │   ├── agents/
+    │   │   └── openai.yaml
+    │   └── references/
+    │       └── nightly-npu-repro.md
+    └── model-memory-estimation/
         ├── SKILL.md
-        ├── agents/
-        │   └── openai.yaml
-        └── references/
-            └── nightly-npu-repro.md
+        ├── agents/openai.yaml
+        ├── references/
+        │   ├── memory-models.md
+        │   ├── small-to-large.md
+        │   ├── kimi-k3-example.md
+        │   ├── kimi-k3-calculations.json
+        │   └── calculator.md
+        └── scripts/
+            ├── estimate_memory.py
+            └── test_estimate_memory.py
 ```
 
 - [`SKILL.md`](skills/verl-ci-diagnose/SKILL.md)：触发范围、排查流程、报告要求与后续动作。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "模型显存建模与资源估算"
+  short_description: "按模型结构估算训练推理显存，用小模型实测外推卡数和并行配置"
+  default_prompt: "使用 $model-memory-estimation 分析这个模型的训练与推理显存，并给出理论估算、实测外推和候选并行配置。"

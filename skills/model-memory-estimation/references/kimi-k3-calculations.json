@@ -1,0 +1,130 @@
+[
+  {
+    "operation": "state",
+    "public_parameters": 9790000000,
+    "expert_parameters": 5810000000,
+    "public_bytes_per_param": 16,
+    "expert_bytes_per_param": 16,
+    "public_shards": 16,
+    "ep": 16,
+    "efsdp": 1
+  },
+  {
+    "operation": "checkpoint",
+    "boundaries": 12,
+    "batch": 1,
+    "sequence": 1536,
+    "hidden": 7168,
+    "bytes_per_element": 2
+  },
+  {
+    "operation": "checkpoint",
+    "boundaries": 93,
+    "batch": 1,
+    "sequence": 1536,
+    "hidden": 7168,
+    "bytes_per_element": 2
+  },
+  {
+    "operation": "extrapolate",
+    "measurement_metric": "allocated",
+    "known_metric": "allocated",
+    "measured_small": {
+      "value": 19.79,
+      "unit": "GiB"
+    },
+    "known_small": {
+      "value": 14.78,
+      "unit": "GiB"
+    },
+    "expert_tokens_small": 12288,
+    "expert_tokens_large": 24576
+  },
+  {
+    "operation": "training_grid",
+    "state_total": {
+      "value": 41723,
+      "unit": "GiB"
+    },
+    "checkpoint": {
+      "value": 1.907,
+      "unit": "GiB"
+    },
+    "capacity": {
+      "value": 64,
+      "unit": "GiB"
+    },
+    "budget_fraction": 0.95,
+    "experts": 896,
+    "devices_per_node": 16,
+    "tp": 1,
+    "cp": 1,
+    "pp": 1,
+    "available_devices": 896,
+    "candidates": [
+      {
+        "ep": 896,
+        "efsdp": 1,
+        "remaining": {
+          "value": 10.02,
+          "unit": "GiB"
+        }
+      }
+    ]
+  },
+  {
+    "operation": "inference_grid",
+    "experts": 896,
+    "tp": 16,
+    "devices_per_node": 16,
+    "expert_parameters": 2722740830208,
+    "public_tp_parameters": 77259169792,
+    "replicated_parameters": 0,
+    "expert_weight_bytes": 2,
+    "public_weight_bytes": 2,
+    "capacity": {
+      "value": 64,
+      "unit": "GiB"
+    },
+    "budget_fraction": 0.95,
+    "max_instance_devices": 448,
+    "candidates": [
+      {
+        "experts_per_device": 1,
+        "resident": {
+          "value": 23.95,
+          "unit": "GiB"
+        },
+        "cache": {
+          "value": 1.0628125,
+          "unit": "GiB"
+        },
+        "temporary": null
+      },
+      {
+        "experts_per_device": 2,
+        "resident": {
+          "value": 23.95,
+          "unit": "GiB"
+        },
+        "cache": {
+          "value": 1.0628125,
+          "unit": "GiB"
+        },
+        "temporary": null
+      },
+      {
+        "experts_per_device": 4,
+        "resident": {
+          "value": 23.95,
+          "unit": "GiB"
+        },
+        "cache": {
+          "value": 1.0628125,
+          "unit": "GiB"
+        },
+        "temporary": null
+      }
+    ]
+  }
+]
